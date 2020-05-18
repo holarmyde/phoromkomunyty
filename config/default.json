@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://alanu1952:alanu1952@cluster0-vmtsh.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "mysecrettoken",
+  "githubClientId": "e9c408b676be5a434a14",
+  "githubSecret": "48defb0945eb260982817c6ce97751b392cc8f77"
+}
