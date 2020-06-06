@@ -8,6 +8,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 const mongoose = require('mongoose');
 // @route    GET api/profile/me
@@ -24,6 +25,8 @@ router.get('/me', auth, async (req, res) => {
         .status(400)
         .json({ msg: 'There is no profile for this user ' });
     }
+
+    res.json(profile);
   } catch (err) {
     console.err(err.message);
     res.status(500).send('Server Error');
@@ -166,6 +169,8 @@ router.get('/user/:user_id', async (req, res) => {
 router.delete('/', auth, async (req, res) => {
   try {
     // @todo- remove users posts
+    //Remove users posts
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
 
@@ -239,7 +244,7 @@ router.put(
   }
 );
 
-// @route    PUT api/profile/experience/exp_id
+// @route    PUT api/profile/experience/:exp_id
 // @desc     Delete experience from profile
 // @acces    Private
 router.delete('/experience/:exp_id', auth, async (req, res) => {
@@ -363,6 +368,18 @@ router.get('/github/:username', (req, res) => {
       method: 'GET',
       headers: { 'user-agent': 'node.js' },
     };
+
+    /** 
+    const options = {
+      uri: encodeURI(
+        `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+      ),
+      method: 'GET',
+      headers: {
+        'user-agent': 'node.js',
+        Authorization: `token ${config.get('githubSecret')}`,
+      },
+    };  */
 
     request(options, (error, response, body) => {
       if (error) {

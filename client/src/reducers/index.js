@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import alert from './alert';
 import auth from './auth';
 import profile from './profile';
+import post from './post'; // for anything you want to add to the app you just create a new reducer and a new action file and then create the component
 
 export default combineReducers({
   alert,
   auth,
   profile,
+  post,
 });
 
 // using jsonwebtoken is a stateless form of authentication so we have to keep querying th server and seeing if the token matches i.e. we have to keep sending a request to load the user
